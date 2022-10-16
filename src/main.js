@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import '@/assets/styles.scss'
+import '@popperjs/core'
+import 'bootstrap'
 
 Vue.config.productionTip = false
 
