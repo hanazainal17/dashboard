@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="lds-ring d-flex justify-content-center"><div></div><div></div><div></div><div></div></div>
-        <span>Loading...</span>
+        <span class="ms-2">Loading...</span>
     </div>
 </template>
 
