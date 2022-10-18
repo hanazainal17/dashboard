@@ -1,12 +1,13 @@
 <template>
     <div class="dashboard p-4">
         <div>
-            <LoadingSpinner/>
+            <LoadingSpinner v-if="isLoading" />
         </div>
         <h1 class="text-center m-3">Dashboard Demo</h1>
 
         <label class="mb-3" for="search">Search</label>
         <input type="text" id="search" v-model="searchValue" class="form-control mb-3" placeholder="Searching: " />
+        <button class="btn btn-primary">Search</button>
 
         <!-- <div class="mb-3">
             <p>You searched for: {{ searchValue }}</p>
@@ -130,24 +131,31 @@ export default {
         // },
 
         staffList() {
+            // let newList = this.randomArray()
             if (this.searchValue.trim().length > 0) {
                 if (this.timeout) {
                     this.clear()
                 }
-
+                this.isLoading = true
                 this.timeout = setTimeout(() => {
                     let newData = this.staffs
                     console.log(this.timeout)
-                    this.staffs = newData.filter((staff) => staff.user.name.toLowerCase().includes
-                        (this.searchValue.trim().toLowerCase()))
+                    this.staffs = newData.filter((staff) =>
+                        staff.user.name
+                            .toLowerCase()
+                            .includes
+                            (this.searchValue.trim().toLowerCase()))
+                    this.isLoading = false
                 }, 500)
-                
+
             }
+
             return this.staffs
+
         }
     },
 
-    mounted() {
+    async mounted() {
         this.staffs = this.randomArray(); //simpan loaded data dekat sini
 
         // console.log(this.staffs);
