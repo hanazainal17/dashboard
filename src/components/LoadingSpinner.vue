@@ -1,7 +1,7 @@
 <template>
     <div class="bg-spinner d-flex flex-column justify-content-center align-items-center">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-        <span class="ms-2">Loading...</span>
+        <span class="ms-2 my-3">Loading...</span>
     </div>
     
 </template>
@@ -15,9 +15,14 @@
 <style lang="scss" scoped>
 
 .bg-spinner {
-  height: 500px;
-  width: auto;
-  background-color: rgba($color: #C5C5C5, $alpha: 0.2);
+  height: 100%;
+  width: 100%;
+  position: absolute; 
+  background-color: rgba($color: #C5C5C5, $alpha: 0.3);
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
 }
 .lds-ring {
     display: inline-block;

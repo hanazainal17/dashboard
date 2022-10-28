@@ -1,17 +1,17 @@
 <template>
     <div class="dashboard p-4">
-        <div>
-            <LoadingSpinner v-if="isLoading" />
-        </div>
+
         <h1 class="text-center m-3">Dashboard Demo</h1>
 
         <label class="mb-3" for="search">Search</label>
         <input type="text" id="search" v-model="searchValue" class="form-control mb-3" placeholder="Searching: " />
-        <button class="btn btn-primary">Search</button>
 
         <!-- <div class="mb-3">
             <p>You searched for: {{ searchValue }}</p>
         </div> -->
+        <div>
+            <LoadingSpinner v-if="isLoading" />
+        </div>
 
         <table class="table">
             <thead>
@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(staff, index) in staffList">
+                <tr v-for="(staff, index) in staffList" :key="staff.id">
                     <!-- use index if want to print it out -->
                     <td>{{index + 1}}</td> <!-- +1 bcs index started from 0 -->
                     <td>{{staff.user.name}}</td> <!-- print out name -->
@@ -86,7 +86,8 @@ export default {
             console.log(str);
         },
         capFirst(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
+            if (string)
+                return string.charAt(0).toUpperCase() + string.slice(1);
         },
         getRandomInt(min, max) {
             return Math.floor(Math.random() * (max - min)) + min;
@@ -112,7 +113,7 @@ export default {
                     },
                     amount: Math.floor(Math.random() * 10),
                     transportation_fee: Math.floor(Math.random() * 3),
-                    processing_fee: Math.floor(Math.random() * 1),
+                    processing_fee: Math.floor(Math.random() * 4),
                     status: i % 2 == 0 ? 'pending' : 'paid'
                 })
             }
@@ -131,27 +132,42 @@ export default {
         // },
 
         staffList() {
-            // let newList = this.randomArray()
-            if (this.searchValue.trim().length > 0) {
-                if (this.timeout) {
-                    this.clear()
-                }
-                this.isLoading = true
-                this.timeout = setTimeout(() => {
-                    let newData = this.staffs
-                    console.log(this.timeout)
-                    this.staffs = newData.filter((staff) =>
-                        staff.user.name
-                            .toLowerCase()
-                            .includes
-                            (this.searchValue.trim().toLowerCase()))
-                    this.isLoading = false
-                }, 500)
 
+            // let newArr = this.randomArray();
+
+            // const filterArray = newArr.filter((staff) =>
+            //     staff.user.name
+            //         .toLowerCase()
+            //         .includes
+            //         (this.searchValue.trim().toLowerCase()));
+
+            // if (filterArray.length > 0) {
+            //     newArr = filterArray
+
+            // }
+            // console.log(this.timeout);
+            // //console.log(newArr);
+            // return newArr
+
+            let listArr = this.randomArray() // contain list of names
+            
+
+            if (this.searchValue.trim().length > 0) { // to trigger loading screen if user is typing
+                this.isLoading = true
+            } else {
+                this.isLoading = false
             }
 
-            return this.staffs
-
+            const filterArray = listArr.filter((staff) => // to filter what we search
+                staff.user.name
+                    .toLowerCase()
+                    .includes
+                    (this.searchValue.trim().toLowerCase()))
+            
+            if (filterArray.length > 0) { // to return list of names after user empty the search bar
+                listArr = filterArray
+            }
+            return listArr
         }
     },
 
